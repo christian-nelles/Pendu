@@ -1,7 +1,7 @@
 import random
 import os
 
-l = ["abaisse", "abandon", "abandonner", "abimer", "abonné", "abord", "aborder", "abri", "abstrait", "accepter", "accident", "acier", "addition", "adieu"]
+l = ['maison', 'étoile', 'montagne', 'vitesse', 'banane', 'voiture', 'ordinateur', 'ciel', 'océan', 'arbre', 'papillon', 'plage', 'nuage', 'chaise', 'avion']
 b = random.choice(l)
 d = "_" * len(b)
 c = 10
@@ -110,5 +110,5 @@ while c != 0:
 if c == 0:
     print(f"le mot était {b}")
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mots.txt'), 'a') as file:
-        file.write(f"mots: {b}\n\n")
+     # with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mots.txt'), 'a') as file:
+        # file.write(f"mots: {b}\n\n")
