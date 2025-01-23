@@ -107,20 +107,22 @@ while running:
                 game_active = False
             elif event.type == pygame.KEYDOWN:
                 if event.unicode.isalpha():
-                    input_letter = event.unicode.lower()
-                    if input_letter in random_word:
-                        hidden_word_list = hidden_word.split()
-                        for i in range(len(random_word)):
-                            if input_letter == random_word[i]:
-                                hidden_word_list[i] = input_letter
-                        hidden_word = " ".join(hidden_word_list)
-                    else:
-                            if input_letter not in random_word:
-                                if lives > 0:
-                                    lives -= 1
-                                    wrong_letters.append(input_letter)
-                                    current_step += 1
-                                    start_animation(current_step)
+                    input_letter = event.unicode.lower() 
+
+                    if input_letter.isalpha() and input_letter not in wrong_letters and input_letter not in hidden_word:
+                        if input_letter in random_word:
+                            hidden_word_list = hidden_word.split()
+                            for i in range(len(random_word)):
+                                if input_letter == random_word[i]:
+                                    hidden_word_list[i] = input_letter
+                            hidden_word = " ".join(hidden_word_list)
+                        else:
+                                if input_letter not in random_word:
+                                    if lives > 0:
+                                        lives -= 1
+                                        wrong_letters.append(input_letter)
+                                        current_step += 1
+                                        start_animation(current_step)
 
         if not running:
             break
