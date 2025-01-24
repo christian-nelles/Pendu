@@ -6,19 +6,22 @@ import time
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 font = pygame.font.SysFont("None", 30)
+score_display = 0
 
 def initialize_game():
-    global random_word, hidden_word, lives, input_letter, wrong_letters, current_step, animating, current_image_index
+
+    global random_word, hidden_word, lives, input_letter, wrong_letters, current_step, animating, current_image_index, score_display
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mots.txt'), 'r') as file:
         allText = file.read() 
         random_word = random.choice(list(map(str, allText.split())))
     hidden_word = "_ " * len(random_word)
-    lives = 6
+    lives = 6 
     input_letter = None
     wrong_letters = []
     current_step = -1
     animating = False
     current_image_index = 0
+
 
 def start_animation(current_step):
     global animating, step_start_index, step_images, next_change_time, current_image_index
@@ -27,6 +30,10 @@ def start_animation(current_step):
     step_start_index = sum(animation_steps[:current_step])
     step_images = images_with_durations[step_start_index:step_start_index + animation_steps[current_step]]
     next_change_time = time.time() + step_images[0][1]
+
+def score(score_display):
+    score_display += 1
+    return score_display
 
 images_with_durations = []
 default_duration = 0.1  
@@ -81,10 +88,13 @@ while running:
                                     current_step += 1
                                     start_animation(current_step)
 
+
         if not running:
             break
 
         if hidden_word.replace(" ", "") == random_word:
+            score_display = score(score_display)
+            hidden_word = ""
             game_active = False
         elif lives == 0 and not animating:
             current_step += 1
@@ -110,6 +120,10 @@ while running:
 
         screen.blit(font.render(f"Lettres incorrectes : {', '.join(wrong_letters)}", True, (127.5, 0, 0)), (50, 450))
         screen.blit(font.render(f"Mot à deviner : {hidden_word}", True, (0, 0, 0)), (50, 500))
+        # screen.blit(score_display + 1)
+        # score_display += 1
+
+        screen.blit(font.render(f"score : {score_display}", True, (0, 255, 0)), (300, 200))
 
         pygame.display.update()
 
@@ -137,3 +151,6 @@ while running:
                     waiting = False
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                     waiting = False
+
+
+            # score_display = score(score_display)
